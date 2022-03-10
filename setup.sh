@@ -104,7 +104,7 @@ python3 -m pip install --user black
 sudo apt install build-essential -y
 
 ## Add Java JDK LTS
-sudo apt install openjdk-11-jdk -y
+# sudo apt install openjdk-11-jdk -y
 
 sudo apt install \
     apt-transport-https \
@@ -113,57 +113,57 @@ sudo apt install \
     gnupg-agent \
     software-properties-common -y -q
 
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
-sudo install -o root -g root -m 644 /tmp/packages.microsoft.gpg /usr/share/keyrings/
-sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+# curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
+# sudo install -o root -g root -m 644 /tmp/packages.microsoft.gpg /usr/share/keyrings/
+# sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable" > /dev/null 2>&1
-sudo apt update -qq && sudo apt install docker-ce docker-ce-cli docker-compose containerd.io code -y
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# sudo add-apt-repository \
+#   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+#   $(lsb_release -cs) \
+#   stable" > /dev/null 2>&1
+# sudo apt update -qq && sudo apt install docker-ce docker-ce-cli docker-compose containerd.io code -y
 
 ## Post installation for docker
 
-sudo groupadd -f docker
-sudo usermod -aG docker $USER
+# sudo groupadd -f docker
+# sudo usermod -aG docker $USER
 
 ## Post installation for code (sensible defaults)
 
-code --install-extension ms-python.python
-code --install-extension visualstudioexptteam.vscodeintellicode
-code --install-extension eamodio.gitlens
-code --install-extension ms-azuretools.vscode-docker
+# code --install-extension ms-python.python
+# code --install-extension visualstudioexptteam.vscodeintellicode
+# code --install-extension eamodio.gitlens
+# code --install-extension ms-azuretools.vscode-docker
 
 
 ## Install Go
-wget https://golang.org/dl/go1.17.2.linux-amd64.tar.gz -O /tmp/go1.17.2.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf /tmp/go1.17.2.linux-amd64.tar.gz
+# wget https://golang.org/dl/go1.17.2.linux-amd64.tar.gz -O /tmp/go1.17.2.linux-amd64.tar.gz
+# sudo tar -C /usr/local -xzf /tmp/go1.17.2.linux-amd64.tar.gz
 
-if ! grep -qF "export PATH=\$PATH:/usr/local/go/bin" /etc/profile; then
-  sudo sh -c 'echo "export PATH=\$PATH:/usr/local/go/bin" >> /etc/profile'
-fi
+# if ! grep -qF "export PATH=\$PATH:/usr/local/go/bin" /etc/profile; then
+#  sudo sh -c 'echo "export PATH=\$PATH:/usr/local/go/bin" >> /etc/profile'
+# fi
 
 ## Install dotnet-core sdk + runtime
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
+# wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+# sudo dpkg -i packages-microsoft-prod.deb
 
 sudo apt-get update
-sudo apt-get install -y dotnet-sdk-5.0
-sudo apt-get install -y aspnetcore-runtime-5.0
+# sudo apt-get install -y dotnet-sdk-5.0
+# sudo apt-get install -y aspnetcore-runtime-5.0
 
-sudo flatpak install postman -y
+# sudo flatpak install postman -y
 
 ## Node.JS + Yarn Install
 
-echo "Installing Node 14 JS LTS"
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list 
-sudo apt-get update -qq && sudo apt-get install -y yarn
+# echo "Installing Node 14 JS LTS"
+# curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+# sudo apt-get install -y nodejs 
+# curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list 
+# sudo apt-get update -qq && sudo apt-get install -y yarn
 
 
 # Setup GNOME material shell (Need Node.js for compilation of the Typescript extension)
@@ -173,35 +173,35 @@ make -C ~/material-shell/ install
 
 
 # Setup Android Studio for Mobile Development
-while true; do
-  read -p "Mobile development (Android) (y/n)?" choice
-  case "$choice" in 
-    y|Y ) 
-    sudo dpkg --add-architecture i386 && sudo apt update -qq
-    sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
-    wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.1.2.0/android-studio-ide-201.7042882-linux.tar.gz -O /tmp/android-studio-ide-201.7042882-linux.tar.gz
-    sudo tar -xzf /tmp/android-studio-ide-201.7042882-linux.tar.gz -C /opt 
-    sudo sh -c 'cat > /usr/share/applications/jetbrains-studio.desktop << EOF
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Android Studio
-Icon=/opt/android-studio/bin/studio.svg
-Exec="/opt/android-studio/bin/studio.sh" nosplash %f
-Comment=The Drive to Develop
-Categories=Development;IDE;
-Terminal=false
-StartupWMClass=jetbrains-studio
-EOF'
-    sudo chmod 644 /usr/share/applications/jetbrains-studio.desktop; break;;
-    n|N ) 
-    echo "Skipping Install of Android SDKs"; break;;
-    * ) echo "invalid";;
-  esac
-done
+# while true; do
+#  read -p "Mobile development (Android) (y/n)?" choice
+#  case "$choice" in 
+#    y|Y ) 
+#    sudo dpkg --add-architecture i386 && sudo apt update -qq
+#    sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+#    wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.1.2.0/android-studio-ide-201.7042882-linux.tar.gz -O /tmp/android-studio-ide-201.7042882-linux.tar.gz
+#    sudo tar -xzf /tmp/android-studio-ide-201.7042882-linux.tar.gz -C /opt 
+#    sudo sh -c 'cat > /usr/share/applications/jetbrains-studio.desktop << EOF
+# [Desktop Entry]
+# Version=1.0
+# Type=Application
+# Name=Android Studio
+# Icon=/opt/android-studio/bin/studio.svg
+# Exec="/opt/android-studio/bin/studio.sh" nosplash %f
+# Comment=The Drive to Develop
+# Categories=Development;IDE;
+# Terminal=false
+# StartupWMClass=jetbrains-studio
+# EOF'
+#    sudo chmod 644 /usr/share/applications/jetbrains-studio.desktop; break;;
+#    n|N ) 
+#    echo "Skipping Install of Android SDKs"; break;;
+#    * ) echo "invalid";;
+#  esac
+#done
 
 ## Chat
-sudo flatpak install discord -y
+# sudo flatpak install discord -y
 
 ## Multimedia
 sudo apt install -y gimp
