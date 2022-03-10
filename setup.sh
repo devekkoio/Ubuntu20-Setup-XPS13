@@ -168,8 +168,8 @@ sudo apt-get update
 
 # Setup GNOME material shell (Need Node.js for compilation of the Typescript extension)
 
-git clone -b 3.38 https://github.com/PapyElGringo/material-shell.git ~/material-shell || true
-make -C ~/material-shell/ install
+# git clone -b 3.38 https://github.com/PapyElGringo/material-shell.git ~/material-shell || true
+# make -C ~/material-shell/ install
 
 
 # Setup Android Studio for Mobile Development
